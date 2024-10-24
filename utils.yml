@@ -10,12 +10,10 @@ Parameters:
     Type: String
     Description: 'IAM role used by CloudFormation to deploy resources when triggered by GitSync'
     Default: CfnRole
-  S3BucketName:
-    Type: String
-    Description: 'Bucket to put your nested templates in'
-    Default: !Sub "GitSync-${AWS::AccountId}- ${AWS::Region}"
 
 Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
   GitSyncRole:
     Type: AWS::IAM::Role
     Properties:
