@@ -7,11 +7,10 @@ Parameters:
     Description: S3 Bucket in which your nested templates can be found
 
 Resources:
-  #  NestedStack:
-  #  Type: 'AWS::CloudFormation::Stack'
-  #  Properties:
-  #    TemplateURL: !Ref 'https://${CfnBucket}/child.yaml'
-  #    Parameters:
-  #      CfnBucket: !Ref CfnBucket
-  #      RoleName: 'TestNestedRole'
+  NestedStack:
+    Type: 'AWS::CloudFormation::Stack'
+    Properties:
+      TemplateURL: !Sub 'https://${CfnBucket}/child.yaml'
+      Parameters:
+        RoleName: 'TestNestedRole'
 
