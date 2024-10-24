@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: GitSync nested stacks hack test
+
+Parameters:
+  CfnBucket:
+    Type: String
+    Description: 'Bucket where nested templates can be found'
+  RoleName:
+    Type: String
+    Description: "Name of IAM role to create"
+
+Resources:
+  IAMRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "${RoleName}"
+      Path: /
+      Policies:
+        - PolicyName: !Sub "${RoleName}-Nope"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Deny
+                Action: "*"
+                Resource: "*"
+
+
+Outputs:
+  RoleNameOut:
+    Description: Test role created
+    Value: !Ref IAMRole

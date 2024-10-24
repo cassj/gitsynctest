@@ -1,0 +1,17 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Testing deployment of a nested stack with gitsync
+
+Parameters:
+  CfnBucket:
+    Type: String
+    Description: S3 Bucket in which your nested templates can be found
+
+Resources:
+  #  NestedStack:
+  #  Type: 'AWS::CloudFormation::Stack'
+  #  Properties:
+  #    TemplateURL: !Ref 'https://${CfnBucket}/child.yaml'
+  #    Parameters:
+  #      CfnBucket: !Ref CfnBucket
+  #      RoleName: 'TestNestedRole'
+
