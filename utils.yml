@@ -83,9 +83,12 @@ Resources:
 
 
 Outputs:
-  GitSyncRoleiOut:
+  GitSyncRoleOut:
     Description: Role used by GitSync to allow it access to cloudformation
     Value: !Ref GitSyncRole
   CfnRoleOut:
     Description: Role assumable by CloudFormation to allow it to deploy stuff (currently everything, need to scope this down)
     Value: !Ref  CfnRole
+  S3BucketOut:
+    Description: 'Bucket to store nested Cfn templates'
+    Value: !S3Bucket
