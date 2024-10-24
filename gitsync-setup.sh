@@ -29,4 +29,5 @@ exit 0
 
 EOF
 
+chmod +x .git/hooks/pre-push
 
