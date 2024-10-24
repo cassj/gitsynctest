@@ -91,4 +91,4 @@ Outputs:
     Value: !Ref  CfnRole
   S3BucketOut:
     Description: 'Bucket to store nested Cfn templates'
-    Value: !S3Bucket
+    Value: !Ref S3Bucket
