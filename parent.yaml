@@ -10,7 +10,7 @@ Resources:
   NestedStack:
     Type: 'AWS::CloudFormation::Stack'
     Properties:
-      TemplateURL: !Sub 'https://${CfnBucket}/child.yaml'
+      TemplateURL: !Sub 'https://s3.amazonaws.com/${CfnBucket}/child.yaml'
       Parameters:
         RoleName: 'TestNestedRole'
 
