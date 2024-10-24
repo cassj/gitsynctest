@@ -1,4 +1,4 @@
 template-file-path: parent.yaml
 parameters:
-  CfnBucket: git-sync-utils-s3bucket-pnu0qzxv1yqt
+  CfnBucketUrl: https://git-sync-utils-s3bucket-pnu0qzxv1yqt.s3.ap-southeast-2.amazonaws.com
 tags: {}
