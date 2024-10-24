@@ -1,0 +1,93 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Utility roles for GitSync nested stacks hack
+
+Parameters:
+  GitSyncRoleName:
+    Type: String
+    Description: IAM role used by git-sync to allow it to use CloudFormation
+    Default: GitSyncRole
+  CfnRoleName:
+    Type: String
+    Description: 'IAM role used by CloudFormation to deploy resources when triggered by GitSync'
+    Default: CfnRole
+  S3BucketName:
+    Type: String
+    Description: 'Bucket to put your nested templates in'
+    Default: !Sub "GitSync-${AWS::AccountId}- ${AWS::Region}"
+
+Resources:
+  GitSyncRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "${GitSyncRoleName}"
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action:
+              - sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: cloudformation.sync.codeconnections.amazonaws.com
+        Version: 2012-10-17
+      Path: /
+      Policies:
+        - PolicyName: GitSyncPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Sid: SyncToCloudFormation
+                Effect: Allow
+                Action:
+                -  cloudformation:CreateChangeSet
+                -  cloudformation:DeleteChangeSet
+                -  cloudformation:DescribeChangeSet
+                -  cloudformation:DescribeStackEvents
+                -  cloudformation:DescribeStacks
+                -  cloudformation:ExecuteChangeSet
+                -  cloudformation:GetTemplate
+                -  cloudformation:ListChangeSets
+                -  cloudformation:ListStacks
+                -  cloudformation:ValidateTemplate
+                Resource: "*"
+              - Sid: PolicyForManagedRules
+                Effect: Allow
+                Action:
+                - events:PutRule
+                - events:PutTargets
+                Resource: "*"
+                Condition:
+                  StringEquals:
+                    "events:ManagedBy": "cloudformation.sync.codeconnections.amazonaws.com"
+              - Sid: PolicyForDescribingRule
+                Effect: Allow
+                Action: "events:DescribeRule"
+                Resource: "*"
+  CfnRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "${CfnRoleName}"
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action:
+              - sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: cloudformation.amazonaws.com
+        Version: 2012-10-17
+      Path: /
+      Policies:
+        - PolicyName: DeployPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: "*"
+                Resource: "*"
+
+
+Outputs:
+  GitSyncRoleiOut:
+    Description: Role used by GitSync to allow it access to cloudformation
+    Value: !Ref GitSyncRole
+  CfnRoleOut:
+    Description: Role assumable by CloudFormation to allow it to deploy stuff (currently everything, need to scope this down)
+    Value: !Ref  CfnRole
