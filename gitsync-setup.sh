@@ -1,6 +1,6 @@
 #!/bin/bash
 
-usage() { echo "Usage: $0 -s s3://bucketname"; exit 0; }
+usage() { echo "Usage: $0 -s BucketName"; exit 0; }
 
 [ $# -eq 0 ] && usage
 
