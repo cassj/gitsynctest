@@ -12,5 +12,5 @@ Resources:
     Properties:
       TemplateURL: !Sub '${CfnBucketUrl}/child.yml'
       Parameters:
-        RoleName: 'TestNestedRole'
+        RoleName: 'MyNestedRole'
 
